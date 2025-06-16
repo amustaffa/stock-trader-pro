@@ -38,10 +38,10 @@ export interface PortfolioItem {
 export interface TradeOrder {
   id?: string;
   symbol: string;
-  type: 'BUY' | 'SELL';
+  type: number; // 1 for BUY, 2 for SELL
   quantity: number;
   price: number;
-  orderType: 'MARKET' | 'LIMIT';
+  orderType: number; // 1 for MARKET, 2 for LIMIT
   status?: 'PENDING' | 'EXECUTED' | 'CANCELLED';
   createdAt?: Date;
 }

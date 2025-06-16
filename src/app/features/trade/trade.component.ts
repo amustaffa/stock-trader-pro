@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +15,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Stock, TradeOrder } from '../../core/models/stock.model';
 import { StockService } from '../../core/services/stock.service';
 import { TradeConfirmationDialogComponent } from './trade-confirmation-dialog.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.reducer';
+import * as PortfolioActions from '../../store/portfolio/portfolio.actions';
 
 @Component({
   selector: 'app-trade',
@@ -372,7 +376,9 @@ export class TradeComponent implements OnInit {
     private route: ActivatedRoute,
     private stockService: StockService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store: Store<AppState>,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -449,12 +455,16 @@ export class TradeComponent implements OnInit {
 
   onSubmit() {
     if (this.tradeForm.valid && this.selectedStock) {
-      const orderType = this.tradeForm.get('orderType')?.value;
-      const price = orderType === 'MARKET' ? this.selectedStock.price : this.tradeForm.get('price')?.value;
+      const orderType = this.tradeForm.get('orderType')?.value === 'MARKET' ? 1 : 2;
+
+      // Use selected stock price for MARKET orders, or form price for LIMIT orders
+      // Note: In a real application, you would fetch the latest price for MARKET orders
+      // Here we assume the selected stock price is already up-to-date
+      const price = orderType === 1 ? this.selectedStock.price : this.tradeForm.get('price')?.value;
       
       const tradeOrder: TradeOrder = {
         symbol: this.selectedStock.symbol,
-        type: this.tradeForm.get('type')?.value,
+        type: this.tradeForm.get('type')?.value === 'BUY' ? 1 : 2,
         quantity: this.tradeForm.get('quantity')?.value,
         price: price,
         orderType: orderType
@@ -481,19 +491,25 @@ export class TradeComponent implements OnInit {
     });
   }
 
-  executeTrade(tradeOrder: TradeOrder) {
-    // Simulate trade execution
+  executeTrade(tradeOrder: TradeOrder) {    
+    
+    this.store.dispatch(PortfolioActions.executeTrade({
+      tradeOrder: tradeOrder
+    }));
+    
     this.snackBar.open(
       `${tradeOrder.type} order for ${tradeOrder.quantity} shares of ${tradeOrder.symbol} has been placed successfully!`,
       'Close',
       { duration: 5000, panelClass: ['success-snackbar'] }
     );
-    
+
     // Reset form
     this.tradeForm.reset({
       type: 'BUY',
       orderType: 'MARKET'
     });
     this.estimatedTotal = 0;
+
+    this.router.navigate(['/portfolio']);
   }
 }

@@ -160,8 +160,8 @@ import { StockService } from '../../core/services/stock.service';
                     <ng-container matColumnDef="type">
                       <th mat-header-cell *matHeaderCellDef>Type</th>
                       <td mat-cell *matCellDef="let trade">
-                        <span class="trade-type" [class]="trade.type.toLowerCase()">
-                          {{ trade.type }}
+                        <span class="trade-type" [class]="trade.type === 1 ? 'buy' : 'sell'">
+                          {{ trade.type === 1 ? 'buy' : 'sell' }}
                         </span>
                       </td>
                     </ng-container>
@@ -389,40 +389,40 @@ export class PortfolioComponent implements OnInit {
     {
       id: '1',
       symbol: 'AAPL',
-      type: 'BUY',
+      type: 1,//'BUY',
       quantity: 50,
       price: 175.20,
-      orderType: 'MARKET',
+      orderType: 1,//'MARKET',
       status: 'EXECUTED',
       createdAt: new Date('2024-01-15T10:30:00')
     },
     {
       id: '2',
       symbol: 'GOOGL',
-      type: 'SELL',
+      type: 2, //'SELL',
       quantity: 25,
       price: 142.80,
-      orderType: 'LIMIT',
+      orderType: 2,//'LIMIT',
       status: 'EXECUTED',
       createdAt: new Date('2024-01-14T14:15:00')
     },
     {
       id: '3',
       symbol: 'MSFT',
-      type: 'BUY',
+      type: 1,//'BUY',
       quantity: 25,
       price: 380.00,
-      orderType: 'MARKET',
+      orderType: 1,//'MARKET',
       status: 'EXECUTED',
       createdAt: new Date('2024-01-12T09:45:00')
     },
     {
       id: '4',
       symbol: 'TSLA',
-      type: 'SELL',
+      type: 2, // SELL
       quantity: 10,
       price: 260.00,
-      orderType: 'LIMIT',
+      orderType: 2,//'LIMIT',
       status: 'PENDING',
       createdAt: new Date('2024-01-10T16:20:00')
     }
@@ -431,7 +431,6 @@ export class PortfolioComponent implements OnInit {
   constructor(private stockService: StockService) {}
 
   ngOnInit() {
-    // In a real app, you would load data from the service
     this.loadPortfolioData();
   }
 

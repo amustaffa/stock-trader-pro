@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Stock, TradeOrder } from '../../core/models/stock.model';
+import { TradeType } from '../../core/enums/trade-type.enum';
 
 interface DialogData {
   tradeOrder: TradeOrder;
@@ -19,13 +20,13 @@ interface DialogData {
     CommonModule,
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule    
   ],
   template: `
     <div class="confirmation-dialog">
       <h2 mat-dialog-title>
-        <mat-icon [color]="data.tradeOrder.type === 'BUY' ? 'primary' : 'warn'">
-          {{ data.tradeOrder.type === 'BUY' ? 'add_shopping_cart' : 'sell' }}
+        <mat-icon [color]="data.tradeOrder.type === TradeType.Buy ? 'primary' : 'warn'">
+          {{ data.tradeOrder.type === TradeType.Buy ? 'add_shopping_cart' : 'sell' }}
         </mat-icon>
         Confirm {{ data.tradeOrder.type }} Order
       </h2>
@@ -72,7 +73,7 @@ interface DialogData {
       <mat-dialog-actions>
         <button mat-button (click)="onCancel()">Cancel</button>
         <button mat-raised-button 
-                [color]="data.tradeOrder.type === 'BUY' ? 'primary' : 'warn'"
+                [color]="data.tradeOrder.type === 1 ? 'primary' : 'warn'"
                 (click)="onConfirm()">
           Confirm {{ data.tradeOrder.type }}
         </button>
@@ -156,6 +157,7 @@ interface DialogData {
   `]
 })
 export class TradeConfirmationDialogComponent {
+  TradeType = TradeType;
   constructor(
     public dialogRef: MatDialogRef<TradeConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData

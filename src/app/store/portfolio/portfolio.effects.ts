@@ -27,19 +27,13 @@ export class PortfolioEffects {
     this.actions$.pipe(
       ofType(PortfolioActions.executeTrade),
       exhaustMap(({ tradeOrder }) => {
-        // Simulate trade execution
-        const executedTrade = {
-          ...tradeOrder,
-          id: 'trade-' + Date.now(),
-          status: 'EXECUTED' as const,
-          createdAt: new Date()
-        };
-        
-        return of(PortfolioActions.executeTradeSuccess({ tradeOrder: executedTrade }));
+
+         return this.stockService.executeTradeOrder(tradeOrder).pipe(
+          map(portfolio => PortfolioActions.executeTradeSuccess({ tradeOrder })));
       }),
       catchError(error => 
         of(PortfolioActions.executeTradeFailure({ error: error.message }))
-      )
+      )       
     )
   );
   
@@ -66,20 +60,20 @@ export class PortfolioEffects {
           {
             id: '1',
             symbol: 'AAPL',
-            type: 'BUY' as const,
+            type: 1, // BUY
             quantity: 50,
             price: 175.20,
-            orderType: 'MARKET' as const,
+            orderType: 1,//'MARKET' as const,
             status: 'EXECUTED' as const,
             createdAt: new Date('2024-01-15T10:30:00')
           },
           {
             id: '2',
             symbol: 'GOOGL',
-            type: 'SELL' as const,
+            type: 2, // SELL
             quantity: 25,
             price: 142.80,
-            orderType: 'LIMIT' as const,
+            orderType: 2,//'LIMIT' as const,
             status: 'EXECUTED' as const,
             createdAt: new Date('2024-01-14T14:15:00')
           }

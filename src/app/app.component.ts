@@ -164,7 +164,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (isAuthenticated) {
           try {
             await this.signalRService.startConnection();
-            await this.signalRService.subscribeToPortfolio();
+            //await this.signalRService.subscribeToPortfolio();
             
             // Start mock price updates for demo
             this.signalRService.startMockPriceUpdates();

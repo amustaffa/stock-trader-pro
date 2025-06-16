@@ -512,15 +512,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
     
     // Subscribe to stock updates for dashboard stocks
-    this.stocks$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(async (stocks) => {
-        if (this.signalRService.isConnected()) {
-          for (const stock of stocks) {
-            await this.signalRService.subscribeToStock(stock.symbol);
-          }
-        }
-      });
+    // this.stocks$
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe(async (stocks) => {
+    //     if (this.signalRService.isConnected()) {
+    //       for (const stock of stocks) {
+    //         await this.signalRService.subscribeToStock(stock.symbol);
+    //       }
+    //     }
+    //   });
   }
 
   ngOnDestroy() {
