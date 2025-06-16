@@ -6,9 +6,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
-
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { PortfolioState } from '../../store/portfolio/portfolio.reducer';
 import { Portfolio, PortfolioItem, TradeOrder } from '../../core/models/stock.model';
 import { StockService } from '../../core/services/stock.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.reducer';
+import * as PortfolioActions from '../../store/portfolio/portfolio.actions';
+
+export const selectPortfolioState = createFeatureSelector<PortfolioState>('portfolio');
+
+export const selectPortfolio = createSelector(
+  selectPortfolioState,
+  (state) => state.portfolio
+);
 
 @Component({
   selector: 'app-portfolio',
@@ -33,29 +44,31 @@ import { StockService } from '../../core/services/stock.service';
       </div>
       
       <!-- Portfolio Summary -->
+    <!-- Use async pipe and ng-container -->
+    <ng-container *ngIf="portfolio$ | async as portfolio">
       <div class="portfolio-summary">
         <mat-card class="summary-card">
           <mat-card-content>
             <div class="summary-grid">
               <div class="summary-item">
                 <h3>Total Value</h3>
-                <p class="value">{{ this.portfolio.totalValue | currency }}</p>
+                <p class="value">{{ portfolio.totalValue | currency }}</p>
               </div>
               <div class="summary-item">
                 <h3>Total Gain/Loss</h3>
-                <p class="value" [class]="this.portfolio.totalGainLoss >= 0 ? 'positive' : 'negative'">
-                  {{ this.portfolio.totalGainLoss | currency }}
+                <p class="value" [class]="portfolio.totalGainLoss >= 0 ? 'positive' : 'negative'">
+                  {{ portfolio.totalGainLoss | currency }}
                 </p>
               </div>
               <div class="summary-item">
                 <h3>Percentage</h3>
-                <p class="value" [class]="this.portfolio.totalGainLossPercent >= 0 ? 'positive' : 'negative'">
-                  {{ this.portfolio.totalGainLossPercent | number:'1.2-2' }}%
+                <p class="value" [class]="portfolio.totalGainLossPercent >= 0 ? 'positive' : 'negative'">
+                  {{ portfolio.totalGainLossPercent | number:'1.2-2' }}%
                 </p>
               </div>
               <div class="summary-item">
                 <h3>Holdings</h3>
-                <p class="value">{{ this.portfolio.items.length }}</p>
+                <p class="value">{{ portfolio.items.length }}</p>
               </div>
             </div>
           </mat-card-content>
@@ -72,7 +85,7 @@ import { StockService } from '../../core/services/stock.service';
               </mat-card-header>
               <mat-card-content>
                 <div class="table-container">
-                  <table mat-table [dataSource]="this.portfolio.items" class="full-width">
+                  <table mat-table [dataSource]="portfolio.items" class="full-width">
                     <ng-container matColumnDef="symbol">
                       <th mat-header-cell *matHeaderCellDef>Symbol</th>
                       <td mat-cell *matCellDef="let holding">
@@ -199,6 +212,7 @@ import { StockService } from '../../core/services/stock.service';
           </div>
         </mat-tab>
       </mat-tab-group>
+    </ng-container>
     </div>
   `,
   styles: [`
@@ -368,19 +382,10 @@ import { StockService } from '../../core/services/stock.service';
     }
   `]
 })
+
 export class PortfolioComponent implements OnInit {
   
-  portfolio: Portfolio = {
-    id: '1', // Default ID
-    userId: 'user123', // Default User ID
-    name: 'My Portfolio', // Default Name
-    createdDate: new Date(), // Default Created Date
-    lastUpdated: new Date(), // Default Last Updated
-    totalValue: 0,
-    totalGainLoss: 0,
-    totalGainLossPercent: 0,
-    items: []
-  };
+  portfolio$ = this.store.select(selectPortfolio);
 
   holdingsColumns: string[] = ['symbol', 'quantity', 'averagePrice', 'currentPrice', 'totalValue', 'gainLoss', 'actions'];
   tradeColumns: string[] = ['date', 'symbol', 'type', 'quantity', 'price', 'total', 'status'];
@@ -428,15 +433,18 @@ export class PortfolioComponent implements OnInit {
     }
   ];
 
-  constructor(private stockService: StockService) {}
+  constructor(
+    private stockService: StockService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit() {
-    this.loadPortfolioData();
+    this.store.dispatch(PortfolioActions.loadPortfolio());
   }
 
   private loadPortfolioData() {
     
-     this.stockService.getPortfolio().subscribe(portfolio => this.portfolio = portfolio);
+     this.stockService.getPortfolio().subscribe(portfolio => portfolio = portfolio);
     // this.stockService.getTradeHistory().subscribe(history => this.tradeHistory = history);
   }
 }
