@@ -1,4 +1,4 @@
-# StockTrader Pro - Angular Stock Trading Application
+# Stock Trader Pro - Angular Stock Trading Application
 
 A comprehensive Angular application for stock trading that follows industry best practices and modern development standards.
 
@@ -48,7 +48,7 @@ src/
 ### Design Patterns
 - **Service Layer Pattern**: Separation of business logic from components
 - **Repository Pattern**: Data access abstraction
-- **Observer Pattern**: RxJS for reactive data flow
+- **Observer Pattern**: NgRx for reactive data flow
 - **Guard Pattern**: Route protection and access control
 - **Interceptor Pattern**: Cross-cutting concerns (auth, error handling)
 - **Component Composition**: Reusable and maintainable UI components

@@ -34,7 +34,7 @@ import { selectIsAuthenticated, selectAuthLoading, selectAuthError } from '../..
         <mat-card-header>
           <div class="login-header">
             <mat-icon class="login-icon">trending_up</mat-icon>
-            <h1>StockTrader Pro</h1>
+            <h1>Stock Trader Pro</h1>
             <p>Sign in to your account</p>
           </div>
         </mat-card-header>

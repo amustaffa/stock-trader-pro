@@ -38,7 +38,7 @@ import { NotificationPanelComponent } from './shared/components/notification-pan
       <mat-toolbar color="primary" class="app-toolbar">
         <span class="app-title">
           <mat-icon>trending_up</mat-icon>
-          StockTrader Pro
+          Stock Trader Pro
         </span>
         
         <span class="spacer"></span>
