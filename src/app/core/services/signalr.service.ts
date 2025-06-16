@@ -156,6 +156,11 @@ export class SignalRService {
   private setupEventHandlers(): void {
     if (!this.hubConnection) return;
 
+      // Stock price updates
+    this.hubConnection.on('receivemessage', (message: string) => {
+      console.log('Received message -:', message);
+    });
+    
     // Stock price updates
     this.hubConnection.on('StockPriceUpdate', (stockUpdate: Stock) => {
       console.log('Received stock price update:', stockUpdate);
