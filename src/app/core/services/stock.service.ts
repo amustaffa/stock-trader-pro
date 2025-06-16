@@ -28,7 +28,7 @@ export class StockService {
 
   // Portfolio
   getPortfolio(): Observable<Portfolio> {
-    return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio`);
+    return this.http.get<Portfolio>(`${environment.apiUrl}/portfolios`);
   }
 
   // Trading

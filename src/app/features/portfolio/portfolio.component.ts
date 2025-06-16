@@ -7,7 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 
-import { Portfolio, Holding, TradeOrder } from '../../core/models/stock.model';
+import { Portfolio, PortfolioItem, TradeOrder } from '../../core/models/stock.model';
 import { StockService } from '../../core/services/stock.service';
 
 @Component({
@@ -39,23 +39,23 @@ import { StockService } from '../../core/services/stock.service';
             <div class="summary-grid">
               <div class="summary-item">
                 <h3>Total Value</h3>
-                <p class="value">{{ mockPortfolio.totalValue | currency }}</p>
+                <p class="value">{{ this.portfolio.totalValue | currency }}</p>
               </div>
               <div class="summary-item">
                 <h3>Total Gain/Loss</h3>
-                <p class="value" [class]="mockPortfolio.totalGainLoss >= 0 ? 'positive' : 'negative'">
-                  {{ mockPortfolio.totalGainLoss | currency }}
+                <p class="value" [class]="this.portfolio.totalGainLoss >= 0 ? 'positive' : 'negative'">
+                  {{ this.portfolio.totalGainLoss | currency }}
                 </p>
               </div>
               <div class="summary-item">
                 <h3>Percentage</h3>
-                <p class="value" [class]="mockPortfolio.totalGainLossPercent >= 0 ? 'positive' : 'negative'">
-                  {{ mockPortfolio.totalGainLossPercent | number:'1.2-2' }}%
+                <p class="value" [class]="this.portfolio.totalGainLossPercent >= 0 ? 'positive' : 'negative'">
+                  {{ this.portfolio.totalGainLossPercent | number:'1.2-2' }}%
                 </p>
               </div>
               <div class="summary-item">
                 <h3>Holdings</h3>
-                <p class="value">{{ mockPortfolio.holdings.length }}</p>
+                <p class="value">{{ this.portfolio.items.length }}</p>
               </div>
             </div>
           </mat-card-content>
@@ -72,7 +72,7 @@ import { StockService } from '../../core/services/stock.service';
               </mat-card-header>
               <mat-card-content>
                 <div class="table-container">
-                  <table mat-table [dataSource]="mockPortfolio.holdings" class="full-width">
+                  <table mat-table [dataSource]="this.portfolio.items" class="full-width">
                     <ng-container matColumnDef="symbol">
                       <th mat-header-cell *matHeaderCellDef>Symbol</th>
                       <td mat-cell *matCellDef="let holding">
@@ -369,58 +369,21 @@ import { StockService } from '../../core/services/stock.service';
   `]
 })
 export class PortfolioComponent implements OnInit {
+  
+  portfolio: Portfolio = {
+    id: '1', // Default ID
+    userId: 'user123', // Default User ID
+    name: 'My Portfolio', // Default Name
+    createdDate: new Date(), // Default Created Date
+    lastUpdated: new Date(), // Default Last Updated
+    totalValue: 0,
+    totalGainLoss: 0,
+    totalGainLossPercent: 0,
+    items: []
+  };
+
   holdingsColumns: string[] = ['symbol', 'quantity', 'averagePrice', 'currentPrice', 'totalValue', 'gainLoss', 'actions'];
   tradeColumns: string[] = ['date', 'symbol', 'type', 'quantity', 'price', 'total', 'status'];
-  
-  mockPortfolio: Portfolio = {
-    id: '1',
-    userId: '1',
-    totalValue: 125000,
-    totalGainLoss: 8500,
-    totalGainLossPercent: 7.29,
-    holdings: [
-      {
-        id: '1',
-        symbol: 'AAPL',
-        quantity: 100,
-        averagePrice: 150.00,
-        currentPrice: 182.52,
-        totalValue: 18252,
-        gainLoss: 3252,
-        gainLossPercent: 21.68
-      },
-      {
-        id: '2',
-        symbol: 'GOOGL',
-        quantity: 50,
-        averagePrice: 120.00,
-        currentPrice: 138.45,
-        totalValue: 6922.50,
-        gainLoss: 922.50,
-        gainLossPercent: 15.38
-      },
-      {
-        id: '3',
-        symbol: 'MSFT',
-        quantity: 75,
-        averagePrice: 350.00,
-        currentPrice: 378.90,
-        totalValue: 28417.50,
-        gainLoss: 2167.50,
-        gainLossPercent: 8.26
-      },
-      {
-        id: '4',
-        symbol: 'TSLA',
-        quantity: 25,
-        averagePrice: 280.00,
-        currentPrice: 248.73,
-        totalValue: 6218.25,
-        gainLoss: -781.75,
-        gainLossPercent: -11.17
-      }
-    ]
-  };
   
   mockTradeHistory: TradeOrder[] = [
     {
@@ -469,12 +432,12 @@ export class PortfolioComponent implements OnInit {
 
   ngOnInit() {
     // In a real app, you would load data from the service
-    // this.loadPortfolioData();
+    this.loadPortfolioData();
   }
 
   private loadPortfolioData() {
-    // Example service calls:
-    // this.stockService.getPortfolio().subscribe(portfolio => this.portfolio = portfolio);
+    
+     this.stockService.getPortfolio().subscribe(portfolio => this.portfolio = portfolio);
     // this.stockService.getTradeHistory().subscribe(history => this.tradeHistory = history);
   }
 }

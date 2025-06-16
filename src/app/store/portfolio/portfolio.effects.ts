@@ -14,38 +14,8 @@ export class PortfolioEffects {
     this.actions$.pipe(
       ofType(PortfolioActions.loadPortfolio),
       exhaustMap(() => {
-        // Mock portfolio data
-        const mockPortfolio = {
-          id: '1',
-          userId: '1',
-          totalValue: 125000,
-          totalGainLoss: 8500,
-          totalGainLossPercent: 7.29,
-          holdings: [
-            {
-              id: '1',
-              symbol: 'AAPL',
-              quantity: 100,
-              averagePrice: 150.00,
-              currentPrice: 182.52,
-              totalValue: 18252,
-              gainLoss: 3252,
-              gainLossPercent: 21.68
-            },
-            {
-              id: '2',
-              symbol: 'GOOGL',
-              quantity: 50,
-              averagePrice: 120.00,
-              currentPrice: 138.45,
-              totalValue: 6922.50,
-              gainLoss: 922.50,
-              gainLossPercent: 15.38
-            }
-          ]
-        };
-        
-        return of(PortfolioActions.loadPortfolioSuccess({ portfolio: mockPortfolio }));
+      return this.stockService.getPortfolio().pipe(
+          map(portfolio => PortfolioActions.loadPortfolioSuccess({ portfolio })));
       }),
       catchError(error => 
         of(PortfolioActions.loadPortfolioFailure({ error: error.message }))

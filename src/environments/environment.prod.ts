@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-api-domain.com/api',
-  signalRUrl: 'https://your-api-domain.com'
+  apiUrl: 'https://localhost:5104/api',
+  signalRUrl: 'https://localhost:5104/'
 };

@@ -15,13 +15,16 @@ export interface Stock {
 export interface Portfolio {
   id: string;
   userId: string;
+  name: string;
+  createdDate: Date;
+  lastUpdated: Date;
   totalValue: number;
   totalGainLoss: number;
   totalGainLossPercent: number;
-  holdings: Holding[];
+  items: PortfolioItem[];
 }
 
-export interface Holding {
+export interface PortfolioItem {
   id: string;
   symbol: string;
   quantity: number;

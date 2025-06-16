@@ -25,7 +25,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
-          this.setAuthData(response.token, response.user);
+          this.setAuthData(response.token, response.userid);
         }),
         catchError(error => {
           console.error('Login failed:', error);

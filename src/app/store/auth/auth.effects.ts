@@ -17,24 +17,18 @@ export class AuthEffects {
       exhaustMap(({ credentials }) =>
         // Simulate API call for demo
         new Promise(resolve => {
-          setTimeout(() => {
-            if (credentials.username === 'demo' && credentials.password === 'password123') {
-              const mockResponse = {
-                token: 'mock-jwt-token-' + Date.now(),
-                user: {
-                  id: '1',
-                  username: credentials.username,
-                  email: 'demo@example.com',
-                  firstName: 'Demo',
-                  lastName: 'User'
-                }
-              };
-              resolve(mockResponse);
-            } else {
-              throw new Error('Invalid credentials');
-            }
-          }, 1000);
-        }).then((response: any) => {
+        this.authService.login(credentials).subscribe({
+        next: (response) => {
+          //this.isLoading = false;
+          //this.notificationService.showSuccess('Login successful!');
+          this.router.navigate(['/dashboard']);
+          resolve(response);
+        },
+        error: (error) => {
+          AuthActions.loginFailure({ error: error.message || 'Login failed' })
+        }
+      });
+      }).then((response: any) => {
           // Store in localStorage
           localStorage.setItem('auth_token', response.token);
           localStorage.setItem('current_user', JSON.stringify(response.user));
@@ -43,7 +37,7 @@ export class AuthEffects {
             user: response.user,
             token: response.token
           });
-        }).catch(error => 
+      }).catch(error => 
           AuthActions.loginFailure({ error: error.message || 'Login failed' })
         )
       )
@@ -69,7 +63,7 @@ export class AuthEffects {
       ofType(AuthActions.loginFailure),
       tap(({ error }) => {
         this.snackBar.open(error, 'Close', {
-          duration: 5000,
+          duration: 10000,
           panelClass: ['error-snackbar']
         });
       })

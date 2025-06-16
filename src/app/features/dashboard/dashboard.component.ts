@@ -86,7 +86,7 @@ import { SignalRService } from '../../core/services/signalr.service';
               </div>
               <div class="summary-details">
                 <h3>Holdings</h3>
-                <p class="amount">{{ (portfolio$ | async)?.holdings?.length || 0 }} Stocks</p>
+                <p class="amount">{{ (portfolio$ | async)?.items?.length || 0 }} Stocks</p>
               </div>
             </div>
           </mat-card-content>

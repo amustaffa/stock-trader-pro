@@ -42,11 +42,11 @@ import { selectIsAuthenticated, selectAuthLoading, selectAuthError } from '../..
         <mat-card-content>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Username</mat-label>
-              <input matInput formControlName="username" placeholder="Enter your username">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" placeholder="Enter your email">
               <mat-icon matSuffix>person</mat-icon>
-              <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
-                Username is required
+              <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                Email is required
               </mat-error>
             </mat-form-field>
             
@@ -81,8 +81,8 @@ import { selectIsAuthenticated, selectAuthLoading, selectAuthError } from '../..
         <mat-card>
           <mat-card-content>
             <h3>Demo Credentials</h3>
-            <p><strong>Username:</strong> demo</p>
-            <p><strong>Password:</strong> password123</p>
+            <p><strong>Email:</strong> testuser1&#64;example.com</p>
+            <p><strong>Password:</strong> Password123!</p>
           </mat-card-content>
         </mat-card>
       </div>
@@ -212,7 +212,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
   }

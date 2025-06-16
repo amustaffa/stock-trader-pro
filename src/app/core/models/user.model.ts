@@ -7,11 +7,12 @@ export interface User {
 }
 
 export interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface LoginResponse {
   token: string;
-  user: User;
+  userid: User;
+  email: string;
 }

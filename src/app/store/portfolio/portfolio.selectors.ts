@@ -30,7 +30,7 @@ export const selectPortfolioError = createSelector(
 
 export const selectPortfolioHoldings = createSelector(
   selectPortfolio,
-  (portfolio) => portfolio?.holdings || []
+  (portfolio) => portfolio?.items || []
 );
 
 export const selectPortfolioTotalValue = createSelector(

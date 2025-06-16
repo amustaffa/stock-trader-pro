@@ -40,7 +40,7 @@ export class SignalRService {
 
     try {
       this.hubConnection = new HubConnectionBuilder()
-        .withUrl(`${environment.signalRUrl}/stockHub`, {
+        .withUrl(`${environment.signalRUrl}/signalr`, {
           withCredentials: false,
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
