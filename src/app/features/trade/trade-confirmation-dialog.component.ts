@@ -4,7 +4,8 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { Stock, TradeOrder } from '../../core/models/stock.model';
+import { Stock } from '../../core/models/stock.model';
+import { TradeOrder } from "../../core/models/TradeOrder";
 import { TradeType } from '../../core/enums/trade-type.enum';
 
 interface DialogData {
@@ -75,7 +76,7 @@ interface DialogData {
         <button mat-raised-button 
                 [color]="data.tradeOrder.type === 1 ? 'primary' : 'warn'"
                 (click)="onConfirm()">
-          Confirm {{ data.tradeOrder.type }}
+          Confirm {{ data.tradeOrder.type === TradeType.Buy ? 'Buy' : 'Sell' }} Order
         </button>
       </mat-dialog-actions>
     </div>

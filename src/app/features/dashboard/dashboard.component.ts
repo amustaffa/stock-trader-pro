@@ -10,7 +10,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
-import { Stock, Portfolio } from '../../core/models/stock.model';
+import { Stock } from '../../core/models/stock.model';
+import { Portfolio } from "../../core/models/Portfolio";
 import { AppState } from '../../store/app.reducer';
 import * as StockActions from '../../store/stock/stock.actions';
 import * as PortfolioActions from '../../store/portfolio/portfolio.actions';

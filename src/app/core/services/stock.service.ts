@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { Stock, Portfolio, TradeOrder, WatchlistItem } from '../models/stock.model';
+import { Stock } from '../models/stock.model';
+import { Portfolio } from "../models/Portfolio";
+import { TradeOrder } from "../models/TradeOrder";
+import { WatchlistItem } from "../models/WatchlistItem";
 import { environment } from '../../../environments/environment';
 
 @Injectable({

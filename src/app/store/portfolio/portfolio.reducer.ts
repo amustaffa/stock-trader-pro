@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Portfolio, TradeOrder } from '../../core/models/stock.model';
+import { Portfolio } from "../../core/models/Portfolio";
+import { TradeOrder } from "../../core/models/TradeOrder";
 import * as PortfolioActions from './portfolio.actions';
 
 export interface PortfolioState {

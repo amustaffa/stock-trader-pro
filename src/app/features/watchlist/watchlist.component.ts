@@ -11,7 +11,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 
-import { Stock, WatchlistItem } from '../../core/models/stock.model';
+import { Stock } from '../../core/models/stock.model';
+import { WatchlistItem } from "../../core/models/WatchlistItem";
 import { StockService } from '../../core/services/stock.service';
 
 @Component({

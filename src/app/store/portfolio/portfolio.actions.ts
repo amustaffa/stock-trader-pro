@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Portfolio, TradeOrder } from '../../core/models/stock.model';
+import { Portfolio } from "../../core/models/Portfolio";
+import { TradeOrder } from "../../core/models/TradeOrder";
 
 // Load Portfolio
 export const loadPortfolio = createAction('[Portfolio] Load Portfolio');

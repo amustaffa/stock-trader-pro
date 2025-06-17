@@ -7,7 +7,9 @@ import { environment } from '../../../environments/environment';
 import { AppState } from '../../store/app.reducer';
 import * as StockActions from '../../store/stock/stock.actions';
 import * as PortfolioActions from '../../store/portfolio/portfolio.actions';
-import { Stock, TradeOrder, Portfolio } from '../models/stock.model';
+import { Stock } from '../models/stock.model';
+import { Portfolio } from "../models/Portfolio";
+import { TradeOrder } from "../models/TradeOrder";
 
 export interface RealTimeUpdate {
   type: 'STOCK_PRICE' | 'TRADE_EXECUTED' | 'PORTFOLIO_UPDATE' | 'MARKET_NEWS';
@@ -125,7 +127,7 @@ export class SignalRService {
       }
     }
   }
-
+  
   /**
    * Send trade order to server
    */
@@ -160,7 +162,7 @@ export class SignalRService {
     this.hubConnection.on('receivemessage', (message: string) => {
       console.log('Received message -:', message);
     });
-    
+
     // Stock price updates
     this.hubConnection.on('StockPriceUpdate', (stockUpdate: Stock) => {
       console.log('Received stock price update:', stockUpdate);

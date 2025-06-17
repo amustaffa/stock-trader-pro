@@ -12,7 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Stock, TradeOrder } from '../../core/models/stock.model';
+import { Stock } from '../../core/models/stock.model';
+import { TradeOrder } from "../../core/models/TradeOrder";
 import { StockService } from '../../core/services/stock.service';
 import { TradeConfirmationDialogComponent } from './trade-confirmation-dialog.component';
 import { Store } from '@ngrx/store';

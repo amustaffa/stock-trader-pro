@@ -11,6 +11,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { By } from '@angular/platform-browser';
+
 import { AppState } from '../../store/app.reducer';
 import * as AuthActions from '../../store/auth/auth.actions';
 import { selectIsAuthenticated, selectAuthLoading, selectAuthError } from '../../store/auth/auth.selectors';

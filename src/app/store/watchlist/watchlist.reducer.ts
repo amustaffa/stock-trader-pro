@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { WatchlistItem, Stock } from '../../core/models/stock.model';
+import { Stock } from '../../core/models/stock.model';
+import { WatchlistItem } from "../../core/models/WatchlistItem";
 import * as WatchlistActions from './watchlist.actions';
 
 export interface WatchlistState extends EntityState<WatchlistItem> {

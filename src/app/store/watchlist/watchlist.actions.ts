@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { WatchlistItem, Stock } from '../../core/models/stock.model';
+import { Stock } from '../../core/models/stock.model';
+import { WatchlistItem } from "../../core/models/WatchlistItem";
 
 // Load Watchlist
 export const loadWatchlist = createAction('[Watchlist] Load Watchlist');
